@@ -1,9 +1,8 @@
 {
-  "name": "screeps-typescript-starter",
-  "version": "3.0.0",
-  "description": "",
+  "name": "@michaelbeutler/screeps",
+  "version": "0.0.1",
+  "description": "Screeps code for total server domination.",
   "main": "index.js",
-  "//": "If you add or change the names of destinations in screeps.json, make sure you update these scripts to reflect the changes",
   "scripts": {
     "lint": "eslint \"src/**/*.ts\"",
     "build": "rollup -c",
@@ -21,14 +20,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/screepers/screeps-typescript-starter.git"
+    "url": "git+https://github.com/michaelbeutler/screeps"
   },
   "author": "",
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/screepers/screeps-typescript-starter/issues"
+    "url": "https://github.com/michaelbeutler/screeps/issues"
   },
-  "homepage": "https://github.com/screepers/screeps-typescript-starter#readme",
   "engines": {
     "node": "10.x || 12.x"
   },
@@ -51,8 +49,8 @@
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.24.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "lodash": "^3.10.1",
-    "mocha": "^5.2.0",
+    "lodash": "^4.17.21",
+    "mocha": "^9.2.0",
     "prettier": "^2.3.2",
     "rollup": "^2.56.2",
     "rollup-plugin-clear": "^2.0.7",
