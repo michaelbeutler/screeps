@@ -37,7 +37,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   for (const roomId in Game.rooms) {
     if (Object.prototype.hasOwnProperty.call(Game.rooms, roomId)) {
       const room = Game.rooms[roomId];
-      console.log(`Active sources in room ${room.name}: ${getSources(room.name)}`);
+      console.log(`Active sources in room ${room.name}: ${getSources(room.name).length}`);
     }
   }
 
