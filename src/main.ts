@@ -1,4 +1,5 @@
 import { ErrorMapper } from "utils/ErrorMapper";
+import { getSources } from "utils/SourceHelper";
 
 declare global {
   /*
@@ -33,6 +34,12 @@ declare global {
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 export const loop = ErrorMapper.wrapLoop(() => {
   console.log(`Current game tick is ${Game.time}`);
+  for (const roomId in Game.rooms) {
+    if (Object.prototype.hasOwnProperty.call(Game.rooms, roomId)) {
+      const room = Game.rooms[roomId];
+      console.log(`Active sources in room ${room.name}: ${getSources(room.name)}`);
+    }
+  }
 
   // Automatically delete memory of missing creeps
   for (const name in Memory.creeps) {
