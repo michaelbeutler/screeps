@@ -1,6 +1,5 @@
 {
   "main": {
-    "token": "YOUR_TOKEN",
     "protocol": "https",
     "hostname": "screeps.com",
     "port": 443,
@@ -8,7 +7,6 @@
     "branch": "main"
   },
   "sim": {
-    "token": "YOUR_TOKEN",
     "protocol": "https",
     "hostname": "screeps.com",
     "port": 443,
@@ -16,20 +14,10 @@
     "branch": "sim"
   },
   "season": {
-    "token": "YOUR_TOKEN",
     "protocol": "https",
     "hostname": "screeps.com",
     "port": 443,
     "path": "/season",
-    "branch": "main"
-  },
-  "pserver": {
-    "email": "username",
-    "password": "Password",
-    "protocol": "http",
-    "hostname": "1.2.3.4",
-    "port": 21025,
-    "path": "/",
     "branch": "main"
   }
 }

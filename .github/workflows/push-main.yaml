@@ -1,0 +1,21 @@
+name: Push to main branch 🎈
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - run: npm install
+      - run: npm run push-main
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          SCREEPS_AUTH_TOKEN: ${{secrets.SCREEPS_AUTH_TOKEN}}
