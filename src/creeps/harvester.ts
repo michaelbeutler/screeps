@@ -31,15 +31,21 @@ class Harvester {
       }
     });
 
-    if (spawnCreep === OK) {
-      Memory.creepIndex++;
-      (Game.creeps[name].memory as HarvesterMemory).sourceId = spawn.room.find(FIND_SOURCES_ACTIVE)[0].id;
-      (Game.creeps[name].memory as HarvesterMemory).spawnId = spawn.id;
-      console.log(`Successfully spawned ${name}.`);
-      return;
-    }
+    switch (spawnCreep) {
+      case OK:
+        Memory.creepIndex++;
+        (Game.creeps[name].memory as HarvesterMemory).sourceId = spawn.room.find(FIND_SOURCES_ACTIVE)[0].id;
+        (Game.creeps[name].memory as HarvesterMemory).spawnId = spawn.id;
+        console.log(`Successfully spawned ${name}.`);
+        return;
+      case ERR_NOT_ENOUGH_ENERGY:
+        console.log(`Not enough energy for spawning creep.`);
+        return;
 
-    console.log(`Unable to spawn ${name}! (${spawnCreep.toLocaleString()})`);
+      default:
+        console.log(`Unable to spawn ${name}! (${spawnCreep.toLocaleString()})`);
+        break;
+    }
   }
 
   work() {
@@ -53,7 +59,7 @@ class Harvester {
     }
 
     // Check if creep can't carry more energy
-    if (this.creep.store.energy >= this.creep.store.getCapacity(RESOURCE_ENERGY)) {
+    if (this.creep.carry.energy >= this.creep.carryCapacity) {
       const transfer = this.creep.transfer(this.spawn, RESOURCE_ENERGY);
       switch (transfer) {
         case ERR_NOT_IN_RANGE:
