@@ -51,8 +51,12 @@ export const loop = ErrorMapper.wrapLoop(() => {
     }
   }
 
-  if (!Memory.creepIndex) {Memory.creepIndex = 0;}
-  if (!Memory.stage) {Memory.stage = 1;}
+  if (!Memory.creepIndex) {
+    Memory.creepIndex = 0;
+  }
+  if (!Memory.stage) {
+    Memory.stage = 1;
+  }
 
   let count = 0;
   for (const creepName in Game.creeps) {
@@ -70,11 +74,23 @@ export const loop = ErrorMapper.wrapLoop(() => {
     }
   }
 
-  if (count < 3) {
-    Memory.stage = 1;
-    Harvester.spawn(Game.spawns["spawn0"]);
-  } else if (count >= 3 && count < 5) {
-    Memory.stage = 2;
-    Harvester.spawn(Game.spawns["spawn0"]);
+  switch (Memory.stage) {
+    case 1:
+      if (count < 3) {
+        Harvester.spawn(Game.spawns["spawn0"]);
+      } else {
+        Memory.stage = 2;
+      }
+      return;
+    case 2:
+      if (count < 5) {
+        Harvester.spawn(Game.spawns["spawn0"]);
+      }
+      return;
+
+    default:
+      Memory.stage = 1;
+      Harvester.spawn(Game.spawns["spawn0"]);
+      return;
   }
 });
