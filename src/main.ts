@@ -73,7 +73,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   if (count < 3) {
     Memory.stage = 1;
     Harvester.spawn(Game.spawns["spawn0"]);
-  } else if (count < 5) {
+  } else if (count >= 3 && count < 5) {
     Memory.stage = 2;
     Harvester.spawn(Game.spawns["spawn0"]);
   }

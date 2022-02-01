@@ -70,8 +70,11 @@ class Harvester {
           return;
         }
 
-        const transfer = this.creep.transfer(controller, RESOURCE_ENERGY);
+        const transfer = this.creep.upgradeController(controller);
         switch (transfer) {
+          case OK:
+            return;
+
           case ERR_NOT_IN_RANGE:
             this.creep.moveTo(controller);
             return;
@@ -84,6 +87,9 @@ class Harvester {
 
       const transfer = this.creep.transfer(this.spawn, RESOURCE_ENERGY);
       switch (transfer) {
+        case OK:
+          return;
+
         case ERR_NOT_IN_RANGE:
           this.creep.moveTo(this.spawn);
           return;
