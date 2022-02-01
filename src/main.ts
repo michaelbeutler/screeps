@@ -16,6 +16,7 @@ declare global {
     uuid: number;
     log: any;
     creepIndex: number;
+    stage: number;
   }
 
   interface CreepMemory {
@@ -50,6 +51,9 @@ export const loop = ErrorMapper.wrapLoop(() => {
     }
   }
 
+  if (!Memory.creepIndex) {Memory.creepIndex = 0;}
+  if (!Memory.stage) {Memory.stage = 1;}
+
   let count = 0;
   for (const creepName in Game.creeps) {
     if (Object.prototype.hasOwnProperty.call(Game.creeps, creepName)) {
@@ -67,6 +71,8 @@ export const loop = ErrorMapper.wrapLoop(() => {
   }
 
   if (count < 3) {
-    Harvester.spawn(Game.spawns["spawn0"], 1);
+    Harvester.spawn(Game.spawns["spawn0"]);
+  } else {
+    Memory.stage = 2;
   }
 });

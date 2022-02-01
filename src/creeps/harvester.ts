@@ -4,26 +4,30 @@ class Harvester {
   creep: Creep;
   source: Source | null;
   spawn: StructureSpawn | null;
+  room: Room;
 
   constructor(creep: Creep & { memory: HarvesterMemory }) {
     this.creep = creep;
     this.source = Game.getObjectById(creep.memory.sourceId);
     this.spawn = Game.getObjectById(creep.memory.spawnId);
+    this.room = creep.room;
   }
 
   static getBodyParts(stage: number) {
     switch (stage) {
       case 1:
         return [CARRY, MOVE, WORK];
+      case 2:
+        return [CARRY, CARRY, MOVE, WORK];
 
       default:
         return [CARRY, MOVE, WORK];
     }
   }
 
-  static spawn(spawn: StructureSpawn, stage: number) {
+  static spawn(spawn: StructureSpawn) {
     const name = `harvester${Memory.creepIndex}`;
-    const spawnCreep = spawn.spawnCreep(Harvester.getBodyParts(stage), name, {
+    const spawnCreep = spawn.spawnCreep(Harvester.getBodyParts(Memory.stage), name, {
       memory: {
         role: "harvester",
         room: spawn.room.name,
@@ -60,11 +64,29 @@ class Harvester {
 
     // Check if creep can't carry more energy
     if (this.creep.carry.energy >= this.creep.carryCapacity) {
+      if (this.spawn.energy >= this.spawn.energyCapacity) {
+        const controller = this.room.controller;
+        if (!controller) {
+          return;
+        }
+
+        const transfer = this.creep.transfer(controller, RESOURCE_ENERGY);
+        switch (transfer) {
+          case ERR_NOT_IN_RANGE:
+            this.creep.moveTo(controller);
+            return;
+
+          default:
+            this.creep.say(transfer.toLocaleString());
+            return;
+        }
+      }
+
       const transfer = this.creep.transfer(this.spawn, RESOURCE_ENERGY);
       switch (transfer) {
         case ERR_NOT_IN_RANGE:
           this.creep.moveTo(this.spawn);
-          break;
+          return;
 
         default:
           this.creep.say(transfer.toLocaleString());
