@@ -1,12 +1,15 @@
+import Role from "./role";
+
 export type HarvesterMemory = CreepMemory & { sourceId: string; spawnId: string };
 
-class Harvester {
+class Harvester extends Role<HarvesterMemory> {
   creep: Creep;
   source: Source | null;
   spawn: StructureSpawn | null;
   room: Room;
 
   constructor(creep: Creep & { memory: HarvesterMemory }) {
+    super(creep);
     this.creep = creep;
     this.source = Game.getObjectById(creep.memory.sourceId);
     this.spawn = Game.getObjectById(creep.memory.spawnId);
