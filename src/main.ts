@@ -15,6 +15,7 @@ declare global {
   interface Memory {
     uuid: number;
     log: any;
+    creepIndex: number;
   }
 
   interface CreepMemory {

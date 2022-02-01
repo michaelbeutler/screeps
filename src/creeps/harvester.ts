@@ -11,8 +11,6 @@ class Harvester {
     this.spawn = Game.getObjectById(creep.memory.spawnId);
   }
 
-  static index = 0;
-
   static getBodyParts(stage: number) {
     switch (stage) {
       case 1:
@@ -24,7 +22,7 @@ class Harvester {
   }
 
   static spawn(spawn: StructureSpawn, stage: number) {
-    const name = `harvester${this.index}`;
+    const name = `harvester${Memory.creepIndex}`;
     const spawnCreep = spawn.spawnCreep(Harvester.getBodyParts(stage), name, {
       memory: {
         role: "harvester",
@@ -34,6 +32,7 @@ class Harvester {
     });
 
     if (spawnCreep === OK) {
+      Memory.creepIndex++;
       (Game.creeps[name].memory as HarvesterMemory).sourceId = spawn.room.find(FIND_SOURCES_ACTIVE)[0].id;
       (Game.creeps[name].memory as HarvesterMemory).spawnId = spawn.id;
       console.log(`Successfully spawned ${name}.`);
