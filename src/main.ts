@@ -1,3 +1,4 @@
+import Harvester, { HarvesterMemory } from "creeps/harvester";
 import { ErrorMapper } from "utils/ErrorMapper";
 import { getSources } from "utils/SourceHelper";
 
@@ -17,7 +18,7 @@ declare global {
   }
 
   interface CreepMemory {
-    role: string;
+    role: "harvester";
     room: string;
     working: boolean;
   }
@@ -37,7 +38,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
   for (const roomId in Game.rooms) {
     if (Object.prototype.hasOwnProperty.call(Game.rooms, roomId)) {
       const room = Game.rooms[roomId];
-      console.log(`Active sources in room ${room.name}: ${getSources(room.name).length}`);
+      console.debug(`Active sources in room ${room.name}: ${getSources(room.name).length}`);
     }
   }
 
@@ -46,5 +47,25 @@ export const loop = ErrorMapper.wrapLoop(() => {
     if (!(name in Game.creeps)) {
       delete Memory.creeps[name];
     }
+  }
+
+  let count = 0;
+  for (const creepName in Game.creeps) {
+    if (Object.prototype.hasOwnProperty.call(Game.creeps, creepName)) {
+      count++;
+      const creep = Game.creeps[creepName];
+      switch (creep.memory.role) {
+        case "harvester":
+          new Harvester(creep as Creep & { memory: HarvesterMemory }).work();
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
+  if (count < 1) {
+    Harvester.spawn(Game.spawns["spawn0"], 1);
   }
 });
