@@ -1,4 +1,4 @@
-import Harvester, { HarvesterMemory } from "creeps/harvester";
+import Harvester, { HarvesterMemory } from "creeps/Harvester";
 import { ErrorMapper } from "utils/ErrorMapper";
 import { getSources } from "utils/SourceHelper";
 

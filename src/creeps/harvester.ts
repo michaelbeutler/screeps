@@ -1,3 +1,4 @@
+import { randomIndex } from "utils/Helpers";
 import Role from "./role";
 
 export type HarvesterMemory = CreepMemory & { sourceId: string; spawnId: string };
@@ -41,7 +42,8 @@ class Harvester extends Role<HarvesterMemory> {
     switch (spawnCreep) {
       case OK:
         Memory.creepIndex++;
-        (Game.creeps[name].memory as HarvesterMemory).sourceId = spawn.room.find(FIND_SOURCES_ACTIVE)[0].id;
+        const sources = spawn.room.find(FIND_SOURCES_ACTIVE);
+        (Game.creeps[name].memory as HarvesterMemory).sourceId = sources[randomIndex(sources.length)].id;
         (Game.creeps[name].memory as HarvesterMemory).spawnId = spawn.id;
         console.log(`Successfully spawned ${name}.`);
         return;
