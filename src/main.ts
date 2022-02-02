@@ -1,6 +1,6 @@
-import Harvester, { HarvesterMemory, ROLE_HARVESTER } from "creeps/Harvester";
+import Harvester, { HarvesterMemory } from "creeps/Harvester";
 import { ErrorMapper } from "utils/ErrorMapper";
-import Population, { Role } from "utils/Population";
+import Population, { Role, ROLE_HARVESTER } from "utils/Population";
 import { getSources } from "utils/SourceHelper";
 
 declare global {
@@ -32,6 +32,8 @@ declare global {
       log: any;
     }
   }
+
+  const ROLE_HARVESTER: ROLE_HARVESTER;
 }
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change

@@ -1,4 +1,6 @@
-import Harvester, { ROLE_HARVESTER } from "creeps/Harvester";
+import Harvester from "creeps/Harvester";
+
+export type ROLE_HARVESTER = "ROLE_HARVESTER";
 
 export type Role = ROLE_HARVESTER;
 

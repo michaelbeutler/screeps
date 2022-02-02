@@ -1,9 +1,8 @@
 import { randomIndex } from "utils/Helpers";
+import { ROLE_HARVESTER } from "utils/Population";
 import Role from "./Role";
 
 export type HarvesterMemory = CreepMemory & { sourceId: string; spawnId: string };
-export type ROLE_HARVESTER = "ROLE_HARVESTER";
-export declare const ROLE_HARVESTER: ROLE_HARVESTER;
 
 class Harvester extends Role<HarvesterMemory> {
   creep: Creep;
