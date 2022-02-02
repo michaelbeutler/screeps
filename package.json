@@ -1,6 +1,6 @@
 {
   "name": "@michaelbeutler/screeps",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Screeps code for total server domination.",
   "main": "index.js",
   "scripts": {
