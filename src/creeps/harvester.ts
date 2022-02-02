@@ -1,7 +1,9 @@
 import { randomIndex } from "utils/Helpers";
-import Role from "./role";
+import Role from "./Role";
 
 export type HarvesterMemory = CreepMemory & { sourceId: string; spawnId: string };
+export type ROLE_HARVESTER = "ROLE_HARVESTER";
+export declare const ROLE_HARVESTER: ROLE_HARVESTER;
 
 class Harvester extends Role<HarvesterMemory> {
   creep: Creep;
@@ -23,6 +25,8 @@ class Harvester extends Role<HarvesterMemory> {
         return [CARRY, MOVE, WORK];
       case 2:
         return [CARRY, CARRY, MOVE, WORK];
+      case 3:
+        return [CARRY, CARRY, MOVE, MOVE, WORK];
 
       default:
         return [CARRY, MOVE, WORK];
@@ -33,7 +37,7 @@ class Harvester extends Role<HarvesterMemory> {
     const name = `harvester${Memory.creepIndex}`;
     const spawnCreep = spawn.spawnCreep(Harvester.getBodyParts(Memory.stage), name, {
       memory: {
-        role: "harvester",
+        role: ROLE_HARVESTER,
         room: spawn.room.name,
         working: false
       }
@@ -85,6 +89,7 @@ class Harvester extends Role<HarvesterMemory> {
             return;
 
           default:
+            this.creep.memory.working = false;
             this.creep.say(transfer.toLocaleString());
             return;
         }
@@ -108,6 +113,7 @@ class Harvester extends Role<HarvesterMemory> {
     const harvest = this.creep.harvest(this.source);
     switch (harvest) {
       case OK:
+        this.creep.memory.working = true;
         break;
 
       case ERR_NOT_IN_RANGE:

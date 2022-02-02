@@ -1,5 +1,6 @@
-import Harvester, { HarvesterMemory } from "creeps/Harvester";
+import Harvester, { HarvesterMemory, ROLE_HARVESTER } from "creeps/Harvester";
 import { ErrorMapper } from "utils/ErrorMapper";
+import Population, { Role } from "utils/Population";
 import { getSources } from "utils/SourceHelper";
 
 declare global {
@@ -20,7 +21,7 @@ declare global {
   }
 
   interface CreepMemory {
-    role: "harvester";
+    role: Role;
     room: string;
     working: boolean;
   }
@@ -64,7 +65,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
       count++;
       const creep = Game.creeps[creepName];
       switch (creep.memory.role) {
-        case "harvester":
+        case ROLE_HARVESTER:
           new Harvester(creep as Creep & { memory: HarvesterMemory }).work();
           break;
 
@@ -74,25 +75,33 @@ export const loop = ErrorMapper.wrapLoop(() => {
     }
   }
 
+  Population.tick();
   switch (Memory.stage) {
     case 1:
-      if (count < 3) {
-        Harvester.spawn(Game.spawns["spawn0"]);
-      } else {
+      Population.set(ROLE_HARVESTER, 3);
+      if (Population.get(ROLE_HARVESTER) >= 3) {
         Memory.stage = 2;
       }
       return;
     case 2:
-      if (count < 5) {
-        Harvester.spawn(Game.spawns["spawn0"]);
-      } else if (count < 2) {
+      Population.set(ROLE_HARVESTER, 5);
+      if (Population.get(ROLE_HARVESTER) < 3) {
         Memory.stage = 1;
+      }
+      if (Population.get(ROLE_HARVESTER) >= 5) {
+        Memory.stage = 3;
+      }
+      return;
+    case 3:
+      Population.set(ROLE_HARVESTER, 10);
+      if (Population.get(ROLE_HARVESTER) < 5) {
+        Memory.stage = 2;
       }
       return;
 
     default:
       Memory.stage = 1;
-      Harvester.spawn(Game.spawns["spawn0"]);
+      Population.set(ROLE_HARVESTER, 3);
       return;
   }
 });
