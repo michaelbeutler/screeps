@@ -1,5 +1,4 @@
 import { randomIndex } from "utils/Helpers";
-import { ROLE_HARVESTER } from "utils/Population";
 import Role from "./Role";
 
 export type HarvesterMemory = CreepMemory & { sourceId: string; spawnId: string };
@@ -36,7 +35,7 @@ class Harvester extends Role<HarvesterMemory> {
     const name = `harvester${Memory.creepIndex}`;
     const spawnCreep = spawn.spawnCreep(Harvester.getBodyParts(Memory.stage), name, {
       memory: {
-        role: ROLE_HARVESTER,
+        role: "harvester",
         room: spawn.room.name,
         working: false
       }

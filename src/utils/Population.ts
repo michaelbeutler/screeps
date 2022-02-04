@@ -1,15 +1,12 @@
 import Harvester from "creeps/Harvester";
-
-export type ROLE_HARVESTER = "ROLE_HARVESTER";
-
-export type Role = ROLE_HARVESTER;
+import { ROLE } from "main";
 
 export default class Population {
-  static population: { [key: string | Role]: number };
+  static population: { [key: string | ROLE]: number };
   static spawn: StructureSpawn = Game.spawns["spawn0"];
 
   static tick() {
-    const currentPopulation: { [key: string | Role]: number } = {};
+    const currentPopulation: { [key: string | ROLE]: number } = {};
     for (const creepName in Game.creeps) {
       if (Object.prototype.hasOwnProperty.call(Game.creeps, creepName)) {
         const creep = Game.creeps[creepName];
@@ -31,8 +28,8 @@ export default class Population {
 
         if (requiredPopulation > currentPopulation[role]) {
           switch (role) {
-            case ROLE_HARVESTER:
-                Harvester.spawn(Population.spawn);
+            case "harvester":
+              Harvester.spawn(Population.spawn);
               break;
 
             default:
@@ -43,25 +40,25 @@ export default class Population {
     }
   }
 
-  public static increase(role: Role, amount: number = 1) {
+  public static increase(role: ROLE, amount: number = 1) {
     Population.population = Object.assign({}, Population.population, {
       [role]: Population.population[role] + amount
     });
   }
 
-  public static decrease(role: Role, amount: number = 1) {
+  public static decrease(role: ROLE, amount: number = 1) {
     Population.population = Object.assign({}, Population.population, {
       [role]: Population.population[role] - amount
     });
   }
 
-  public static set(role: Role, amount: number = 1) {
+  public static set(role: ROLE, amount: number = 1) {
     Population.population = Object.assign({}, Population.population, {
       [role]: amount
     });
   }
 
-  public static get(role?: Role) {
+  public static get(role?: ROLE) {
     if (!role) {
       return Population.population;
     }

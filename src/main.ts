@@ -1,6 +1,6 @@
 import Harvester, { HarvesterMemory } from "creeps/Harvester";
 import { ErrorMapper } from "utils/ErrorMapper";
-import Population, { Role, ROLE_HARVESTER } from "utils/Population";
+import Population from "utils/Population";
 import { getSources } from "utils/SourceHelper";
 
 declare global {
@@ -21,7 +21,7 @@ declare global {
   }
 
   interface CreepMemory {
-    role: Role;
+    role: ROLE;
     room: string;
     working: boolean;
   }
@@ -32,9 +32,9 @@ declare global {
       log: any;
     }
   }
-
-  const ROLE_HARVESTER: ROLE_HARVESTER;
 }
+
+export type ROLE = "harvester"|"guard";
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
@@ -67,7 +67,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
       count++;
       const creep = Game.creeps[creepName];
       switch (creep.memory.role) {
-        case ROLE_HARVESTER:
+        case "harvester":
           new Harvester(creep as Creep & { memory: HarvesterMemory }).work();
           break;
 
@@ -80,30 +80,30 @@ export const loop = ErrorMapper.wrapLoop(() => {
   Population.tick();
   switch (Memory.stage) {
     case 1:
-      Population.set(ROLE_HARVESTER, 3);
-      if (Population.get(ROLE_HARVESTER) >= 3) {
+      Population.set("harvester", 3);
+      if (Population.get("harvester") >= 3) {
         Memory.stage = 2;
       }
       return;
     case 2:
-      Population.set(ROLE_HARVESTER, 5);
-      if (Population.get(ROLE_HARVESTER) < 3) {
+      Population.set("harvester", 5);
+      if (Population.get("harvester") < 3) {
         Memory.stage = 1;
       }
-      if (Population.get(ROLE_HARVESTER) >= 5) {
+      if (Population.get("harvester") >= 5) {
         Memory.stage = 3;
       }
       return;
     case 3:
-      Population.set(ROLE_HARVESTER, 10);
-      if (Population.get(ROLE_HARVESTER) < 5) {
+      Population.set("harvester", 10);
+      if (Population.get("harvester") < 5) {
         Memory.stage = 2;
       }
       return;
 
     default:
       Memory.stage = 1;
-      Population.set(ROLE_HARVESTER, 3);
+      Population.set("harvester", 3);
       return;
   }
 });
