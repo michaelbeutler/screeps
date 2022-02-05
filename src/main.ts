@@ -1,8 +1,7 @@
 import Harvester, { HarvesterMemory } from "creeps/Harvester";
 import { ErrorMapper } from "utils/ErrorMapper";
-import { getAvailableSourcePlaces, getObjectsAroundPosition } from "utils/Helpers";
+import { getAvailableSourcePlaces } from "utils/Helpers";
 import Population from "utils/Population";
-import { getSources } from "utils/SourceHelper";
 
 declare global {
   /*
