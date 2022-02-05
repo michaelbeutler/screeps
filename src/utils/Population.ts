@@ -10,7 +10,11 @@ export default class Population {
     for (const creepName in Game.creeps) {
       if (Object.prototype.hasOwnProperty.call(Game.creeps, creepName)) {
         const creep = Game.creeps[creepName];
-        currentPopulation[creep.memory.role] += 1;
+        if (currentPopulation[creep.memory.role]) {
+          currentPopulation[creep.memory.role] = currentPopulation[creep.memory.role] + 1;
+        } else {
+          currentPopulation[creep.memory.role] = 1;
+        }
       }
     }
 
@@ -23,10 +27,11 @@ export default class Population {
 
         if (requiredPopulation <= currentPopulation[role]) {
           // Just let them die and do not regenerate
+
           continue;
         }
 
-        if (requiredPopulation > currentPopulation[role]) {
+        if (requiredPopulation > currentPopulation[role] || currentPopulation[role] === undefined) {
           switch (role) {
             case "harvester":
               Harvester.spawn(Population.spawn);
@@ -63,5 +68,20 @@ export default class Population {
       return Population.population;
     }
     return Population.population[role];
+  }
+
+  public static getEffective(role?: ROLE) {
+    let count = 0;
+    for (const creepName in Game.creeps) {
+      if (Object.prototype.hasOwnProperty.call(Game.creeps, creepName)) {
+        const creep = Game.creeps[creepName];
+        if (role && role === creep.memory.role) {
+          count++;
+        } else if (!role) {
+          count++;
+        }
+      }
+    }
+    return count;
   }
 }

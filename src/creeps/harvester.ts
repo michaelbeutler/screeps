@@ -77,7 +77,7 @@ class Harvester extends Role<HarvesterMemory> {
           return;
         }
 
-        const transfer = this.creep.upgradeController(controller);
+        const transfer = this.creep.transfer(controller, RESOURCE_ENERGY);
         switch (transfer) {
           case OK:
             return;
