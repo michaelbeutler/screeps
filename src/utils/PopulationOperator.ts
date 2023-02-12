@@ -46,10 +46,18 @@ export const tick = (population: PopulationConfig) => {
   }
 };
 
+export const getTotalBodyCost = (body: BodyPartConstant[]): number => {
+  let total = 0;
+  for (const part of body) {
+    total += BODYPART_COST[part];
+  }
+  return total;
+}
+
 export const findSpawnWithEnoughEnergy = (blueprint: Blueprint): StructureSpawn | false => {
   const spawns = Object.values(Game.spawns);
   for (const spawn of spawns) {
-    if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) >= blueprint.body.length * 200) {
+    if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) >= getTotalBodyCost(blueprint.body)) {
       return spawn;
     }
   }
