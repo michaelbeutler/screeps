@@ -36,6 +36,11 @@ export const tick = (creep: Creep) => {
         break;
     }
   } else if (creep.memory.status === "upgrading") {
+    if (creep.store.getFreeCapacity() === creep.store.getCapacity()) {
+      creep.memory.status = "working";
+      return;
+    }
+
     // If the creep is carrying energy, move to the spawn and transfer it
     switch (creep.transfer(Game.spawns[creep.memory.spawnId], RESOURCE_ENERGY)) {
       case ERR_NOT_IN_RANGE:
