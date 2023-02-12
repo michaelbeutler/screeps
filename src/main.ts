@@ -1,5 +1,5 @@
 import { ErrorMapper } from "utils/ErrorMapper";
-import { PopulationConfig } from "utils/PopulationOperator";
+import { PopulationConfig, tick } from "utils/PopulationOperator";
 import { ROLE, STATUS } from "utils/Roles";
 
 declare global {
@@ -37,6 +37,12 @@ declare global {
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
 export const loop = ErrorMapper.wrapLoop(() => {
   console.log(`Current game tick is ${Game.time};`);
+
+  if (!Memory.population) {
+    init();
+  }
+
+  tick(Memory.population);
 
   // Automatically delete memory of missing creeps
   for (const name in Memory.creeps) {
