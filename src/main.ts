@@ -1,6 +1,6 @@
 import { ErrorMapper } from "utils/ErrorMapper";
 import { PopulationConfig, tick } from "utils/PopulationOperator";
-import { ROLE, STATUS } from "utils/Roles";
+import { getBlueprint, ROLE, STATUS } from "utils/Roles";
 
 declare global {
   /*
@@ -43,6 +43,12 @@ export const loop = ErrorMapper.wrapLoop(() => {
   }
 
   tick(Memory.population);
+
+  for (const name in Game.creeps) {
+    const creep = Game.creeps[name];
+    const blueprint = getBlueprint(creep.memory.role);
+    blueprint.tick(creep);
+  }
 
   // Automatically delete memory of missing creeps
   for (const name in Memory.creeps) {

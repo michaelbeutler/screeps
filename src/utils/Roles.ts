@@ -1,3 +1,5 @@
+import { tick as tickHarvester } from "roles/Harvester";
+
 export type ROLE = "harvester1" | "harvester2";
 export type STATUS = "idle" | "working" | "moving" | "upgrading";
 
@@ -20,13 +22,13 @@ export const getBlueprint = (role: ROLE): Blueprint => {
       return {
         body: [WORK, CARRY, MOVE],
         memory: { ...defaultMemory, role: "harvester1" as ROLE },
-        tick: (creep: Creep) => {}
+        tick: tickHarvester
       };
     case "harvester2":
       return {
         body: [WORK, WORK, CARRY, MOVE, MOVE],
         memory: { ...defaultMemory, role: "harvester2" as ROLE },
-        tick: (creep: Creep) => {}
+        tick: tickHarvester
       };
   }
 };
